@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+<div class="max-w-lg mx-auto bg-gray-800 p-6 rounded shadow text-center">
+    <!-- Error Meme Image -->
+    <img alt="{{ top }}" class="border rounded-lg mx-auto mb-4"
+         src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=400"
+         title="{{ top }}">
+
+    <h2 class="text-white text-xl font-semibold">{{ top }}</h2>
+    <p class="text-gray-400">{{ bottom }}</p>
+</div>
+{% endblock %}

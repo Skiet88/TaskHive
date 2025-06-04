@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+<div class="flex flex-col lg:flex-row gap-6 h-[80vh]">
+
+    <aside class="w-full lg:w-1/4 bg-gray-800 p-4 rounded shadow flex flex-col justify-between h-full">
+        <div>
+
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-white">Filter Tasks</h2>
+                <a href="{{ url_for('tasks.dashboard') }}"
+                   title="Clear filters"
+                   class="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
+                    ❌ Clear
+                </a>
+            </div>
+
+            <form method="get" action="{{ url_for('tasks.dashboard') }}" class="space-y-3">
+                <input name="q" value="{{ q }}" placeholder="Search title"
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white" />
+                <input name="date" type="date" value="{{ date }}"
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white" />
+                <button type="submit"
+                        class="w-full bg-blue-700 hover:bg-blue-600 text-white py-2 rounded">
+                    Apply Filters
+                </button>
+            </form>
+
+        </div>
+
+        <button onclick="document.getElementById('addTaskModal').classList.remove('hidden')"
+                class="w-full bg-green-600 hover:bg-green-500 text-white py-2 rounded mt-6">
+            + Add Task
+        </button>
+    </aside>
+
+    <!-- Task List Panel -->
+    <section class="flex-1 h-full overflow-y-auto pr-2">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-white">
+                {{ greeting }}, {{ user.name }} {{ user.surname }} 👋
+            </h2>
+            <p class="text-gray-400">Today is {{ current_date }}</p>
+        </div>
+
+        {% if tasks %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {% for task in tasks %}
+            <div class="bg-gray-800 p-4 rounded shadow relative text-white">
+                <h3 class="text-lg font-semibold">{{ task.title }}</h3>
+                <p class="text-gray-300">{{ task.description }}</p>
+                <small class="text-sm text-gray-500 block mt-1">Created: {{ task.created_at }}</small>
+
+                <div class="absolute top-2 right-2 space-x-2 text-gray-400">
+                    <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}"
+                       title="Edit" class="hover:text-blue-400">✏️</a>
+                    <form action="/delete-task/{{ task.id }}" method="get" class="inline delete-task-form">
+                        <button type="submit" title="Delete" class="hover:text-red-400">🗑️</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-400">No tasks available.</p>
+        {% endif %}
+    </section>
+</div>
+
+<!-- Add Task Page -->
+<div id="addTaskModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex justify-center items-center z-50">
+    <div class="bg-gray-800 rounded p-6 w-full max-w-md shadow-lg">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-white">Add New Task</h3>
+            <button onclick="document.getElementById('addTaskModal').classList.add('hidden')"
+                    class="text-gray-400 hover:text-gray-200 text-xl">&times;</button>
+        </div>
+
+        <form method="post" action="/add-task" class="space-y-4">
+            {{ form.hidden_tag() }}
+            {{ form.title(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded", placeholder="Task Title") }}
+            {{ form.description(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded", placeholder="Task Description") }}
+            {{ form.submit(class_="w-full bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

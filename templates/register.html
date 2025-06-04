@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block title %}Register{% endblock %}
+
+{% block main %}
+<div class="max-w-md mx-auto bg-gray-800 p-6 rounded shadow">
+  <h2 class="text-2xl font-bold mb-6 text-white text-center">Create an Account</h2>
+
+
+  {% if form.errors and not form.email.errors and not form.password.errors %}
+    <div class="bg-red-600 text-white p-2 mb-4 rounded text-sm">
+        Please correct the highlighted fields below.
+    </div>
+  {% endif %}
+
+  <form method="post" class="space-y-4">
+    {{ form.hidden_tag() }}
+
+    <div>
+      {{ form.email(class_="
+            w-full px-4 py-2 bg-gray-700 border rounded text-white
+            " + ("border-red-500" if form.email.errors else "border-gray-600"),
+            placeholder="Email") }}
+      {% if form.email.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.email.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      {{ form.name(class_="
+            w-full px-4 py-2 bg-gray-700 border rounded text-white
+            " + ("border-red-500" if form.name.errors else "border-gray-600"),
+            placeholder="First Name") }}
+      {% if form.name.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.name.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      {{ form.surname(class_="
+            w-full px-4 py-2 bg-gray-700 border rounded text-white
+            " + ("border-red-500" if form.surname.errors else "border-gray-600"),
+            placeholder="Surname") }}
+      {% if form.surname.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.surname.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      {{ form.password(class_="
+            w-full px-4 py-2 bg-gray-700 border rounded text-white
+            " + ("border-red-500" if form.password.errors else "border-gray-600"),
+            placeholder="Password") }}
+      {% if form.password.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.password.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      {{ form.confirm(class_="
+            w-full px-4 py-2 bg-gray-700 border rounded text-white
+            " + ("border-red-500" if form.confirm.errors else "border-gray-600"),
+            placeholder="Confirm Password") }}
+      {% if form.confirm.errors %}
+        <p class="text-red-500 text-xs mt-1">{{ form.confirm.errors[0] }}</p>
+      {% endif %}
+    </div>
+
+    {{ form.submit(class_="w-full bg-green-600 hover:bg-green-500 text-white py-2 rounded font-semibold") }}
+  </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}

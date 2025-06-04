@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}Log In{% endblock %}
+
+{% block main %}
+<div class="max-w-md mx-auto bg-gray-800 p-6 rounded shadow">
+
+  <h2 class="text-3xl font-bold mb-4 text-white text-center">Welcome Back!</h2>
+  <p class="text-gray-400 mb-6 text-center">Please log in to continue.</p>
+
+  <!-- Display login error if exists -->
+  {% if form.login_error %}
+    <div class="login-error bg-red-600 text-white p-2 mb-4 rounded text-sm text-center">
+      {{ form.login_error }}
+    </div>
+  {% endif %}
+
+  <form method="post" class="space-y-4">
+    {{ form.hidden_tag() }}
+
+    <div>
+      {{ form.email(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white",
+                    placeholder="Email") }}
+    </div>
+
+    <div>
+      {{ form.password(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white",
+                       placeholder="Password") }}
+    </div>
+
+    <div>
+      {{ form.submit(class_="w-full bg-blue-700 hover:bg-blue-600 text-white py-2 rounded font-semibold") }}
+    </div>
+  </form>
+
+  <!-- Register link -->
+  <p class="mt-4 text-center text-gray-400">
+    Don’t have an account yet?
+    <a href="{{ url_for('user.register') }}" class="text-blue-400 hover:text-blue-300 underline">Register</a>
+  </p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock %}

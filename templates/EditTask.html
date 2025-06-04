@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Task
+{% endblock %}
+
+{% block main %}
+<div class="max-w-md mx-auto bg-gray-800 p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-6 text-white text-center">Edit Task</h2>
+
+    <form method="post" class="space-y-4">
+        {{ form.hidden_tag() }}
+
+        {{ form.title(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white",
+                      placeholder="Task Title") }}
+
+        {{ form.description(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded text-white",
+                            placeholder="Task Description") }}
+
+        <div class="flex justify-between">
+            {{ form.submit(class_="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded font-semibold") }}
+            <a href="{{ url_for('tasks.dashboard') }}"
+               class="text-gray-400 hover:text-white underline px-4 py-2">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

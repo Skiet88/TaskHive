@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block main %}
+<div class="flex min-h-screen bg-gray-50">
+
+  <!-- ░▒▓ Sidebar ▓▒░ -->
+  <aside class="w-64 shrink-0 border-r bg-white">
+    <!-- Logo -->
+    <div class="flex items-center gap-2 px-6 py-6">
+      <!-- gradient square -->
+      <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-fuchsia-500 to-purple-600"></div>
+      <span class="text-2xl font-bold">TaskFlow</span>
+    </div>
+
+    <!-- Nav -->
+    <nav class="space-y-1 px-3">
+      <!-- Active link -->
+      <a href="{{ url_for('tasks.dashboard') }}"
+         class="flex items-center gap-3 rounded-lg bg-fuchsia-50 px-4 py-2 font-medium text-fuchsia-600">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+             stroke-linejoin="round" stroke-width="2"
+             d="M4 6h16M4 12h16M4 18h16"/></svg>
+        All Tasks
+      </a>
+
+      <!-- Inactive link -->
+      <a href="#"
+         class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+             stroke-linejoin="round" stroke-width="2"
+             d="M12 8v4l3 3"/></svg>
+        Overview
+      </a>
+    </nav>
+
+    <!-- Welcome card -->
+    <div class="mx-4 mt-auto mb-6 rounded-lg bg-gradient-to-br from-fuchsia-500 to-purple-600 p-4 text-white">
+      <p class="text-lg font-semibold">Welcome back!</p>
+      <p>You have <span class="font-bold">{{ pending_count or 0 }}</span> tasks pending</p>
+    </div>
+  </aside>
+
+  <!-- ░▒▓ Main content ▓▒░ -->
+  <section class="flex-1 p-8">
+    <!-- Header -->
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">Tasks</h1>
+        <p class="mt-1 text-gray-500">Manage your tasks efficiently</p>
+      </div>
+
+      <!-- New Task button -->
+      <a href="{{ url_for('tasks.add_task') }}"
+         class="inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold text-white
+                bg-gradient-to-br from-fuchsia-500 to-purple-600 shadow-md hover:brightness-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+             stroke-linejoin="round" stroke-width="2"
+             d="M12 4v16m8-8H4"/></svg>
+        New Task
+      </a>
+    </div>
+
+    <!-- Task cards -->
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {% for task in tasks %}
+      <div class="group relative rounded-xl bg-white p-6 shadow
+                  ring-1 ring-gray-200 hover:shadow-lg">
+        <!-- Delete icon -->
+        <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}"
+              method="post"
+              class="absolute right-4 top-4 hidden group-hover:block">
+          <button type="submit" title="Delete"
+                  class="text-gray-400 hover:text-red-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2"
+                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4"/></svg>
+          </button>
+        </form>
+
+        <h3 class="text-xl font-semibold text-gray-900">{{ task.title }}</h3>
+        <p class="mt-2 line-clamp-2 text-gray-500">{{ task.description }}</p>
+
+        <div class="mt-4 flex items-center justify-between text-sm text-gray-400">
+          <span>Created</span>
+          <span class="font-medium text-fuchsia-600">
+            {{ task.created_at.strftime('%b %d, %Y') }}
+          </span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}
