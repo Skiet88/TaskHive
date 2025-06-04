@@ -1,4 +1,4 @@
-# Job Offer Assessment: Task Management Web App
+# Task Management Web App
 
 ## Overview
 
