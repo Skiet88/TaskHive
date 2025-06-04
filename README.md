@@ -17,7 +17,7 @@ This is a Flask-based web application for managing personal tasks. Users can reg
 
 1. **Clone the repository:** 
    ```bash
-   git clone
+   git clone https://github.com/Skiet88/TaskHive.git
 2. **Create and activate a virtual environment:**
     ```bash
    python -m venv venv
