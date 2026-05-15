@@ -1,6 +1,8 @@
 
 Flask~=3.1.1
+Flask-WTF~=1.2.1
 Flask-Session
+email-validator~=2.2.0
 pytz
 requests~=2.32.3
 
